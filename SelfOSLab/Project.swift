@@ -59,5 +59,15 @@ let project = Project(
             ],
             dependencies: [.target(name: "SelfOSLab-Dev")]
         ),
+        .target(
+            name: "SelfOSLabUITests",
+            destinations: .iOS,
+            product: .uiTests,
+            bundleId: "com.nikitakrupiei.selfos.dev.uitests",
+            buildableFolders: [
+                "SelfOSLab/UITests"
+            ],
+            dependencies: [.target(name: "SelfOSLab-Dev")]
+        )
     ]
 )
