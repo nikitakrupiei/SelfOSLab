@@ -29,7 +29,7 @@ platform :ios do
       sh("which xcresultparser || echo 'NOT FOUND'")
       sh("xcresultparser --version || echo 'NO VERSION'")
 
-      sh("xcresultparser result.xcresult --output junit.xml || echo 'FAILED CONVERSION'")
+      sxcrun xcresulttool get --path result.xcresult --format junit > junit.xml
 
       sh("ls -la")
     end
