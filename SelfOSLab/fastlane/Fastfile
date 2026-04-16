@@ -26,8 +26,12 @@ platform :ios do
       
       sh("tuist test --result-bundle-path result.xcresult")
       
-      # конвертація в JUnit
-      sh("xcresultparser --output junit.xml result.xcresult")
+      sh("which xcresultparser || echo 'NOT FOUND'")
+      sh("xcresultparser --version || echo 'NO VERSION'")
+
+      sh("xcresultparser result.xcresult --output junit.xml || echo 'FAILED CONVERSION'")
+
+      sh("ls -la")
     end
   end
 
