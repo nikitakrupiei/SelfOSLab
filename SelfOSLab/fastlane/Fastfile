@@ -22,6 +22,8 @@ platform :ios do
     project_root = File.expand_path("..", Dir.pwd)
     
     Dir.chdir(project_root) do
+      sh("rm -rf result.xcresult")
+      
       sh("tuist test --result-bundle-path result.xcresult")
       
       # конвертація в JUnit
