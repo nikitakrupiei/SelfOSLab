@@ -2,9 +2,25 @@ pipeline {
     agent any
 
     stages {
-        stage('CI Test') {
+        stage('Checkout') {
             steps {
-                echo 'Hello from Jenkins 🚀'
+                checkout scm
+            }
+        }
+        
+        stage('Install dependencies') {
+            steps {
+                dir('SelfOSLab') {
+                    sh 'bundle install'
+                }
+            }
+        }
+        
+        stage('Tests') {
+            steps {
+                dir('SelfOSLab') {
+                    sh 'bundle exec fastlane tests_ci'
+                }
             }
         }
     }
