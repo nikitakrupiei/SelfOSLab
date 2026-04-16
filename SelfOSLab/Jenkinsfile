@@ -18,13 +18,7 @@ pipeline {
                 dir('SelfOSLab') {
                     sh '''
                         export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/homebrew/bin:$PATH"
-
-                        which ruby
-                        ruby -v
-
-                        which tuist
-                        tuist version
-
+                        
                         gem install bundler
                         bundle install
                     '''
@@ -37,17 +31,19 @@ pipeline {
                 dir('SelfOSLab') {
                     sh '''
                         export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/homebrew/bin:$PATH"
-
-                        which ruby
-                        ruby -v
-
-                        which tuist
-                        tuist version
-
+                        
                         bundle exec fastlane tests_ci
                     '''
                 }
             }
+        }
+    }
+
+    post {
+        always {
+            junit 'SelfOSLab/junit.xml'
+            
+            archiveArtifacts artifacts: 'SelfOSLab/result.xcresult', fingerprint: true
         }
     }
 }
