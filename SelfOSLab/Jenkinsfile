@@ -9,27 +9,15 @@ pipeline {
             }
         }
 
-        stage('Setup Ruby') {
-            steps {
-                dir('SelfOSLab') {
-                    sh '''
-                        export PATH="$HOME/.rbenv/bin:$PATH"
-                        eval "$(rbenv init -)"
-                        
-                        ruby -v
-                        which ruby
-                    '''
-                }
-            }
-        }
-
         stage('Install dependencies') {
             steps {
                 dir('SelfOSLab') {
                     sh '''
-                        export PATH="$HOME/.rbenv/bin:$PATH"
-                        eval "$(rbenv init -)"
-                        
+                        export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:$PATH"
+
+                        which ruby
+                        ruby -v
+
                         gem install bundler
                         bundle install
                     '''
@@ -41,9 +29,11 @@ pipeline {
             steps {
                 dir('SelfOSLab') {
                     sh '''
-                        export PATH="$HOME/.rbenv/bin:$PATH"
-                        eval "$(rbenv init -)"
-                        
+                        export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:$PATH"
+
+                        which ruby
+                        ruby -v
+
                         bundle exec fastlane tests_ci
                     '''
                 }
