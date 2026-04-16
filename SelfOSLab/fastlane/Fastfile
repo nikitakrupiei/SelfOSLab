@@ -7,15 +7,19 @@ platform :ios do
     generate
     tests
   end
-  
-  desc "Generate project using Tusit"
+
+  desc "Generate project using Tuist"
   lane :generate do
-    sh("tuist generate")
+    Dir.chdir("SelfOSLab") do
+      sh("tuist generate")
+    end
   end
-  
+
   desc "Run unit tests"
   lane :tests do
-    sh("tuist test")
+    Dir.chdir("SelfOSLab") do
+      sh("tuist test")
+    end
   end
-  
+
 end
