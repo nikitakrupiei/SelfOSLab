@@ -11,6 +11,7 @@ pipeline {
 
         stage('Install dependencies') {
             steps {
+                dir('SelfOSLab') {
                     sh '''
                         export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/homebrew/bin:$PATH"
 
@@ -24,10 +25,12 @@ pipeline {
                         bundle install
                     '''
                 }
+            }
         }
 
         stage('Tests') {
             steps {
+                dir('SelfOSLab') {
                     sh '''
                         export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/homebrew/bin:$PATH"
 
@@ -40,6 +43,7 @@ pipeline {
                         bundle exec fastlane tests_ci
                     '''
                 }
+            }
         }
     }
 }
