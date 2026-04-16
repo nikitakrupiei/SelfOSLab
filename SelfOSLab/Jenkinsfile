@@ -11,7 +11,7 @@ pipeline {
 
         stage('Install dependencies') {
             steps {
-                dir('SelfOSLab') {
+                dir('SelfOSLab/SelfOSLab') {
                     sh '''
                         export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/homebrew/bin:$PATH"
 
@@ -30,7 +30,7 @@ pipeline {
 
         stage('Tests') {
             steps {
-                dir('SelfOSLab') {
+                dir('SelfOSLab/SelfOSLab') {
                     sh '''
                         export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/homebrew/bin:$PATH"
 
