@@ -10,7 +10,7 @@ platform :ios do
 
   desc "Generate project using Tuist"
   lane :generate do
-    project_root = File.expand_path("../SelfOSLab", Dir.pwd)
+    project_root = File.expand_path("..", Dir.pwd)
 
     Dir.chdir(project_root) do
       sh("tuist generate")
@@ -19,7 +19,7 @@ platform :ios do
 
   desc "Run unit tests"
   lane :tests do
-    project_root = File.expand_path("../SelfOSLab", Dir.pwd)
+    project_root = File.expand_path("..", Dir.pwd)
     
     Dir.chdir(project_root) do
       sh("tuist test")
