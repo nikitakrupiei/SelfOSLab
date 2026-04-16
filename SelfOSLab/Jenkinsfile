@@ -1,25 +1,56 @@
 pipeline {
     agent any
 
+    options {
+        ansiColor('xterm')
+        disableConcurrentBuilds()
+    }
+
     stages {
+
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
-        
-        stage('Install dependencies') {
+
+        stage('Setup Ruby') {
             steps {
                 dir('SelfOSLab') {
-                    sh 'bundle install'
+                    sh '''
+                        export PATH="$HOME/.rbenv/bin:$PATH"
+                        eval "$(rbenv init -)"
+                        
+                        ruby -v
+                        which ruby
+                    '''
                 }
             }
         }
-        
+
+        stage('Install dependencies') {
+            steps {
+                dir('SelfOSLab') {
+                    sh '''
+                        export PATH="$HOME/.rbenv/bin:$PATH"
+                        eval "$(rbenv init -)"
+                        
+                        gem install bundler
+                        bundle install
+                    '''
+                }
+            }
+        }
+
         stage('Tests') {
             steps {
                 dir('SelfOSLab') {
-                    sh 'bundle exec fastlane tests_ci'
+                    sh '''
+                        export PATH="$HOME/.rbenv/bin:$PATH"
+                        eval "$(rbenv init -)"
+                        
+                        bundle exec fastlane tests_ci
+                    '''
                 }
             }
         }
