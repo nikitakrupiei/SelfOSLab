@@ -37,20 +37,11 @@ pipeline {
                 }
             }
         }
-        
-        stage('Prepare artifacts') {
-            steps {
-                sh '''
-                    cd SelfOSLab
-                    zip -r testResult.zip testResult.xcresult
-                '''
-            }
-        }
     }
 
     post {
         always {
-            archiveArtifacts artifacts: 'SelfOSLab/testResult.zip', fingerprint: true
+            archiveArtifacts artifacts: 'SelfOSLab/testResult.xcresult/**', fingerprint: true
         }
     }
 }
