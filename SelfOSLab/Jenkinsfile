@@ -41,9 +41,7 @@ pipeline {
 
     post {
         always {
-            junit 'SelfOSLab/junit.xml'
-            
-            archiveArtifacts artifacts: 'SelfOSLab/result.xcresult', fingerprint: true
+            archiveArtifacts artifacts: 'SelfOSLab/testResult.xcresult', fingerprint: true
         }
     }
 }

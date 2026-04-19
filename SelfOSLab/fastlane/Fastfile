@@ -24,14 +24,7 @@ platform :ios do
     Dir.chdir(project_root) do
       sh("rm -rf result.xcresult")
       
-      sh("tuist test --result-bundle-path result.xcresult")
-      
-      sh("which xcresultparser || echo 'NOT FOUND'")
-      sh("xcresultparser --version || echo 'NO VERSION'")
-
-      sxcrun xcresulttool get --path result.xcresult --format junit > junit.xml
-
-      sh("ls -la")
+      sh("tuist test --result-bundle-path testResult.xcresult")
     end
   end
 
