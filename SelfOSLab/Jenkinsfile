@@ -37,14 +37,14 @@ pipeline {
                 }
             }
         }
-    }
-    
-    stage('Prepare artifacts') {
-        steps {
-            sh '''
-                cd SelfOSLab
-                zip -r testResult.zip testResult.xcresult
-            '''
+        
+        stage('Prepare artifacts') {
+            steps {
+                sh '''
+                    cd SelfOSLab
+                    zip -r testResult.zip testResult.xcresult
+                '''
+            }
         }
     }
 
