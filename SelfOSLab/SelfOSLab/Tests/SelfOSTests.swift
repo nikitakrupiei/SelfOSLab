@@ -1,5 +1,5 @@
 import Testing
-@testable import SelfOSLab_Dev
+@testable import SelfOSLab
 
 struct SelfOSTests {
 
