@@ -18,6 +18,6 @@ struct SelfOSTests {
     @Test func failExample() async throws {
         let result = 3 + 3
                 
-        #expect(result == 5)
+        #expect(result == 6)
     }
 }

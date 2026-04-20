@@ -5,39 +5,57 @@ struct Deployment {
 }
 
 struct Paths {
-    private static let baseFolder = "SelfOSLab"
+    struct App {
+        private static let baseFolder = "SelfOSLab"
+        
+        static let sources = Path(stringLiteral: "\(baseFolder)/Sources")
+        static let resources = Path(stringLiteral: "\(baseFolder)/Resources")
+        static let tests = Path(stringLiteral: "\(baseFolder)/Tests")
+        static let uiTests = Path(stringLiteral: "\(baseFolder)/UITests")
+    }
     
-    static let sources = Path(stringLiteral: "\(baseFolder)/Sources")
-    static let resources = Path(stringLiteral: "\(baseFolder)/Resources")
-    static let tests = Path(stringLiteral: "\(baseFolder)/Tests")
-    static let uiTests = Path(stringLiteral: "\(baseFolder)/UITests")
+    struct Platform {
+        private static let baseFolder = "Platform"
+        static let sources = Path(stringLiteral: "../\(baseFolder)/Sources")
+        static let tests = Path(stringLiteral: "../\(baseFolder)/Tests")
+    }
 }
 
 struct BundleIDs {
-    static let app = "com.nikitakrupiei.selfos"
-    static let dev = "com.nikitakrupiei.selfos.dev"
-    static let devTests = "com.nikitakrupiei.selfos.dev.tests"
-    static let devUITests = "com.nikitakrupiei.selfos.dev.uitests"
+    struct App {
+        static let main = "com.nikitakrupiei.selfos"
+        static let unitTests = "com.nikitakrupiei.selfos.tests"
+        static let uiTests = "com.nikitakrupiei.selfos.uitests"
+    }
+    
+    struct Platform {
+        static let main = "com.nikitakrupiei.selfos.platform"
+        static let unitTests = "com.nikitakrupiei.selfos.platform.tests"
+    }
 }
 
 struct Targets {
-    static let app = "SelfOSLab"
-    static let dev = "SelfOSLab-Dev"
-    static let unitTests = "\(dev)Tests"
-    static let uiTests = "\(dev)UITests"
+    struct App {
+        static let main = "SelfOSLab"
+        static let unitTests = "\(main)Tests"
+        static let uiTests = "\(main)UITests"
+    }
+    
+    struct Platform {
+        static let main = "Platform"
+        static let unitTests = "\(main)Tests"
+    }
 }
 
 let project = Project(
-    name: Targets.app,
-    packages: [
-        .local(path: "../Platform")
-    ],
+    name: Targets.App.main,
     targets: [
+        // App
         .target(
-            name: Targets.app,
+            name: Targets.App.main,
             destinations: .iOS,
             product: .app,
-            bundleId: BundleIDs.app,
+            bundleId: BundleIDs.App.main,
             deploymentTargets: .iOS(Deployment.iOS),
             infoPlist: .extendingDefault(
                 with: [
@@ -48,57 +66,60 @@ let project = Project(
                 ]
             ),
             buildableFolders: [
-                .folder(Paths.sources),
-                .folder(Paths.resources),
+                .folder(Paths.App.sources),
+                .folder(Paths.App.resources),
             ],
             dependencies: [
-                .package(product: "Platform")
+                .target(name: Targets.Platform.main)
             ]
         ),
         .target(
-            name: Targets.dev,
-            destinations: .iOS,
-            product: .app,
-            bundleId: BundleIDs.dev,
-            deploymentTargets: .iOS(Deployment.iOS),
-            infoPlist: .extendingDefault(
-                with: [
-                    "UILaunchScreen": [
-                        "UIColorName": "",
-                        "UIImageName": "",
-                    ],
-                ]
-            ),
-            buildableFolders: [
-                .folder(Paths.sources),
-                .folder(Paths.resources),
-            ],
-            dependencies: [
-                .package(product: "Platform")
-            ]
-        ),
-        .target(
-            name: Targets.unitTests,
+            name: Targets.App.unitTests,
             destinations: .iOS,
             product: .unitTests,
-            bundleId: BundleIDs.devTests,
+            bundleId: BundleIDs.App.unitTests,
             deploymentTargets: .iOS(Deployment.iOS),
             infoPlist: .default,
             buildableFolders: [
-                .folder(Paths.tests)
+                .folder(Paths.App.tests)
             ],
-            dependencies: [.target(name: Targets.dev)]
+            dependencies: [.target(name: Targets.App.main)]
         ),
         .target(
-            name: Targets.uiTests,
+            name: Targets.App.uiTests,
             destinations: .iOS,
             product: .uiTests,
-            bundleId: BundleIDs.devUITests,
+            bundleId: BundleIDs.App.uiTests,
             deploymentTargets: .iOS(Deployment.iOS),
             buildableFolders: [
-                .folder(Paths.uiTests)
+                .folder(Paths.App.uiTests)
             ],
-            dependencies: [.target(name: Targets.dev)]
-        )
+            dependencies: [.target(name: Targets.App.main)]
+        ),
+  
+        // Platform
+        .target(
+            name: Targets.Platform.main,
+            destinations: .iOS,
+            product: .staticFramework,
+            bundleId: BundleIDs.Platform.main,
+            deploymentTargets: .iOS(Deployment.iOS),
+            buildableFolders: [
+                .folder(Paths.Platform.sources)
+            ]
+        ),
+        .target(
+            name: Targets.Platform.unitTests,
+            destinations: .iOS,
+            product: .unitTests,
+            bundleId: BundleIDs.Platform.unitTests,
+            deploymentTargets: .iOS(Deployment.iOS),
+            buildableFolders: [
+                .folder(Paths.Platform.tests)
+            ],
+            dependencies: [
+                .target(name: Targets.Platform.main)
+            ]
+        ),
     ]
 )
