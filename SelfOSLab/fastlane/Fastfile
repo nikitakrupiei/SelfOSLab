@@ -2,12 +2,6 @@ default_platform(:ios)
 
 platform :ios do
 
-  desc "Run CI tests"
-  lane :tests_ci do
-    generate
-    tests
-  end
-
   desc "Generate project using Tuist"
   lane :generate do
     project_root = File.expand_path("..", Dir.pwd)
