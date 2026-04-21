@@ -25,6 +25,18 @@ pipeline {
                 }
             }
         }
+        
+        stage('Generate project') {
+            steps {
+                dir('SelfOSLab') {
+                    sh '''
+                        export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/homebrew/bin:$PATH"
+                        
+                        bundle exec fastlane generate
+                    '''
+                }
+            }
+        }
 
         stage('Tests') {
             steps {
@@ -32,7 +44,7 @@ pipeline {
                     sh '''
                         export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/homebrew/bin:$PATH"
                         
-                        bundle exec fastlane tests_ci
+                        bundle exec fastlane tests
                     '''
                 }
             }

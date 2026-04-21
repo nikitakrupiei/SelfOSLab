@@ -1,5 +1,5 @@
 import Testing
-@testable import SelfOSLab_Dev
+@testable import SelfOSLab
 
 struct SelfOSTests {
 
@@ -9,9 +9,15 @@ struct SelfOSTests {
         #expect(result == 5)
     }
     
+    @Test func successExample() async throws {
+        let result = 3 + 3
+                
+        #expect(result == 6)
+    }
+    
     @Test func failExample() async throws {
         let result = 3 + 3
                 
-        #expect(result == 5)
+        #expect(result == 6)
     }
 }
