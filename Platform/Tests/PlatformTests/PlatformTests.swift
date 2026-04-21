@@ -4,5 +4,5 @@ import Testing
 @Test func example() async throws {
     let result = 2 + 3
             
-    #expect(result == 7)
+    #expect(result == 5)
 }
