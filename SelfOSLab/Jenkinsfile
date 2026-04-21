@@ -8,15 +8,31 @@ pipeline {
 
     stages {
 	stage('Setup environment') {
-	    steps {
-        	sh '''
-            	export PATH="$HOME/.rbenv/bin:$PATH"
-            	eval "$(rbenv init - bash)"
-            	rbenv global 3.2.2
+    		steps {
+     		   sh '''
+       		     set -e
+		
+      		      echo "🔧 Setting up environment"
 
-            	ruby -v
-        	'''
-    	    }
+       		     # Homebrew (Jenkins-safe)
+        		    export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+
+         		  # ensure brew exists
+          		  which brew || (echo "Homebrew not found" && exit 1)
+
+          		  # install rbenv via brew if missing
+         		   brew list rbenv >/dev/null 2>&1 || brew install rbenv ruby-build
+
+           		 # initialize rbenv (IMPORTANT)
+           		 eval "$(rbenv init - bash)"
+
+          		  # set ruby
+         		   rbenv install -s 3.2.2
+         		   rbenv global 3.2.2
+
+         		   ruby -v
+       		 '''
+    		}
 	}
 	
         stage('Checkout') {
