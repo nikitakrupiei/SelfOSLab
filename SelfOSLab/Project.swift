@@ -49,6 +49,13 @@ struct Targets {
 
 let project = Project(
     name: Targets.App.main,
+    settings: .settings(
+        base: [
+            "DEVELOPMENT_TEAM": "493K3DK7Y5",
+            "CODE_SIGN_STYLE": "Manual",
+            "CODE_SIGN_IDENTITY": "Apple Development"
+        ]
+    ),
     targets: [
         // App
         .target(
@@ -96,7 +103,7 @@ let project = Project(
             ],
             dependencies: [.target(name: Targets.App.main)]
         ),
-  
+        
         // Platform
         .target(
             name: Targets.Platform.main,

@@ -1,0 +1,62 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+	stage('Install dependencies') {
+            steps {
+                dir('SelfOSLab') {
+                    sh '''
+                        export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/homebrew/bin:$PATH"
+                        
+                        gem install bundler
+                        bundle install
+                    '''
+                }
+            }
+        }
+
+        stage('Sync Certificates (match)') {
+            steps {
+                dir('SelfOSLab') {
+
+                    withCredentials([
+                        usernamePassword(
+                            credentialsId: 'github-cert-repo',
+                            usernameVariable: 'GIT_USER',
+                            passwordVariable: 'GIT_TOKEN'
+                        ),
+                        string(credentialsId: 'match-password', variable: 'MATCH_PASSWORD'),
+                        file(credentialsId: 'appstore-key', variable: 'APPSTORE_KEY_FILE'),
+                        string(credentialsId: 'appstore-key-id', variable: 'APPSTORE_KEY_ID'),
+                        string(credentialsId: 'appstore-issuer-id', variable: 'APPSTORE_ISSUER_ID')
+                    ]) {
+
+                        sh '''
+                            export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/homebrew/bin:$PATH"
+
+                            # Git auth for match repo
+                            git config --global credential.helper store
+                            echo "https://$GIT_USER:$GIT_TOKEN@github.com" > ~/.git-credentials
+
+                            # Fastlane env
+                            export MATCH_PASSWORD=$MATCH_PASSWORD
+                            export APPSTORE_KEY_FILE=$APPSTORE_KEY_FILE
+                            export APPSTORE_KEY_ID=$APPSTORE_KEY_ID
+                            export APPSTORE_ISSUER_ID=$APPSTORE_ISSUER_ID
+
+                            bundle install
+                            bundle exec fastlane ios ci_match
+                        '''
+                    }
+                }
+            }
+        }
+    }
+}

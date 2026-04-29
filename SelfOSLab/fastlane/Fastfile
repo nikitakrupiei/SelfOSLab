@@ -1,4 +1,13 @@
 default_platform(:ios)
+require 'spaceship'
+
+def setup_api_key
+  app_store_connect_api_key(
+    key_id: ENV["APPSTORE_KEY_ID"],
+    issuer_id: ENV["APPSTORE_ISSUER_ID"],
+    key_filepath: ENV["APPSTORE_KEY_FILE"]
+  )
+end
 
 platform :ios do
 
@@ -22,4 +31,22 @@ platform :ios do
     end
   end
 
+
+  desc "CI: setup signing certificates"
+  lane :ci_match do
+    setup_api_key
+
+    match(
+      type: "development",
+      readonly: false
+    )
+  end
+
+  desc "Install existing signing certificates"
+  lane :dev_match do
+    match(
+      type: "development",
+      readonly: true
+    )
+  end
 end
