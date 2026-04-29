@@ -25,7 +25,10 @@ pipeline {
         stage('Match AppStore signing') {
             steps {
                 dir('SelfOSLab') {
-                    sh 'bundle exec fastlane ios match_appstore'
+                    sh '''
+                        export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/homebrew/bin:$PATH"
+                        bundle exec fastlane ios match_appstore
+                    '''
                 }
             }
         }
@@ -33,7 +36,10 @@ pipeline {
         stage('Build') {
             steps {
                 dir('SelfOSLab') {
-                    sh 'bundle exec fastlane ios build_appstore'
+                    sh '''
+                        export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/homebrew/bin:$PATH"
+                        bundle exec fastlane ios build_appstore
+                    '''
                 }
             }
         }
@@ -41,7 +47,10 @@ pipeline {
         stage('Upload to TestFlight') {
             steps {
                 dir('SelfOSLab') {
-                    sh 'bundle exec fastlane ios upload_testflight'
+                    sh '''
+                        export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/homebrew/bin:$PATH"
+                        bundle exec fastlane ios upload_testflight
+                    '''
                 }
             }
         }
