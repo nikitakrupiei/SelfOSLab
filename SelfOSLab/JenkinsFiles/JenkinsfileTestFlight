@@ -3,56 +3,56 @@ pipeline {
 
     stages {
 
-    stage('Checkout') {
-        steps {
-            checkout scm
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
         }
-    }
 
-	stage('Install dependencies') {
+        stage('Install dependencies') {
             steps {
                 dir('SelfOSLab') {
                     sh '''
                         export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/homebrew/bin:$PATH"
-                        
+                            
                         gem install bundler
                         bundle install
                     '''
                 }
             }
         }
-    }
-    
-    stage('Match AppStore signing') {
-        steps {
-            dir('SelfOSLab') {
-                sh 'bundle exec fastlane ios match_appstore'
+        
+        stage('Match AppStore signing') {
+            steps {
+                dir('SelfOSLab') {
+                    sh 'bundle exec fastlane ios match_appstore'
+                }
             }
         }
-    }
-    
-    stage('Build') {
-        steps {
-            dir('SelfOSLab') {
-                sh 'bundle exec fastlane ios build_appstore'
+        
+        stage('Build') {
+            steps {
+                dir('SelfOSLab') {
+                    sh 'bundle exec fastlane ios build_appstore'
+                }
             }
         }
-    }
-    
-    stage('Upload to TestFlight') {
-        steps {
-            dir('SelfOSLab') {
-                sh 'bundle exec fastlane ios upload_testflight'
+        
+        stage('Upload to TestFlight') {
+            steps {
+                dir('SelfOSLab') {
+                    sh 'bundle exec fastlane ios upload_testflight'
+                }
             }
         }
-    }
-    
-    post {
-        success {
-            echo "🚀 Build successful — uploaded to TestFlight"
-        }
-        failure {
-            echo "❌ Build failed"
+        
+        post {
+            success {
+                echo "🚀 Build successful — uploaded to TestFlight"
+            }
+            failure {
+                echo "❌ Build failed"
+            }
         }
     }
 }
