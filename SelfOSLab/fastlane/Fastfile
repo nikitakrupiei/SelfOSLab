@@ -2,49 +2,78 @@ default_platform(:ios)
 require 'spaceship'
 
 def setup_api_key
-  app_store_connect_api_key(
-    key_id: ENV["APPSTORE_KEY_ID"],
-    issuer_id: ENV["APPSTORE_ISSUER_ID"],
-    key_filepath: ENV["APPSTORE_KEY_FILE"]
-  )
+    app_store_connect_api_key(
+        key_id: ENV["APPSTORE_KEY_ID"],
+        issuer_id: ENV["APPSTORE_ISSUER_ID"],
+        key_filepath: ENV["APPSTORE_KEY_FILE"]
+    )
 end
 
 platform :ios do
 
-  desc "Generate project using Tuist"
-  lane :generate do
-    project_root = File.expand_path("..", Dir.pwd)
+    desc "Generate project using Tuist"
+        lane :generate do
+        project_root = File.expand_path("..", Dir.pwd)
 
-    Dir.chdir(project_root) do
-      sh("tuist generate")
+        Dir.chdir(project_root) do
+            sh("tuist generate")
+        end
     end
-  end
 
-  desc "Run unit tests"
-  lane :tests do
-    project_root = File.expand_path("..", Dir.pwd)
+    desc "Run unit tests"
+        lane :tests do
+        project_root = File.expand_path("..", Dir.pwd)
+
+        Dir.chdir(project_root) do
+            sh("rm -rf testResult.xcresult")
+
+            sh("tuist test --result-bundle-path testResult.xcresult")
+        end
+    end
+
+
+    desc "CI: setup signing certificates"
+        lane :ci_match do
+        setup_api_key
+
+        match(type: "development",readonly: false)
+        match(type: "appstore", readonly: false)
+    end
+
+    desc "Install existing signing certificates for development"
+    lane :match_dev do
+        match(
+            type: "development",
+            readonly: true
+        )
+    end
     
-    Dir.chdir(project_root) do
-      sh("rm -rf testResult.xcresult")
-      
-      sh("tuist test --result-bundle-path testResult.xcresult")
+    desc "Install existing signing certificates for distribution"
+    lane :match_appstore do
+        match(
+            type: "appstore",
+            readonly: true
+        )
     end
-  end
+    
+    
+    
+    
+    lane :build_appstore do
+        sh("tuist install")
+        sh("tuist generate")
 
+        increment_build_number
 
-  desc "CI: setup signing certificates"
-  lane :ci_match do
-    setup_api_key
-
-    match(type: "development",readonly: false)
-    match(type: "appstore", readonly: false)
-  end
-
-  desc "Install existing signing certificates"
-  lane :dev_match do
-    match(
-      type: "development",
-      readonly: true
-    )
-  end
+        build_app(
+            scheme: "SelfOSLab",
+            export_method: "app-store"
+        )
+    end
+    
+    lane :upload_testflight do
+        upload_to_testflight(
+            skip_waiting_for_build_processing: true
+        )
+    end
 end
