@@ -61,9 +61,9 @@ Tuist/.build
 *.swp
 
 # Fastlane generated files
-fastlane/report.xml
-fastlane/README.md
+SelfOSLab/fastlane/report.xml
+SelfOSLab/fastlane/README.md
 
 # Optional but common
-fastlane/Preview.html
-fastlane/screenshots
+SelfOSLab/fastlane/Preview.html
+SelfOSLab/fastlane/screenshots
