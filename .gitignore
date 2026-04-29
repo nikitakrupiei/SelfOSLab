@@ -59,3 +59,11 @@ Tuist/.build
 *.log
 *.tmp
 *.swp
+
+# Fastlane generated files
+fastlane/report.xml
+fastlane/README.md
+
+# Optional but common
+fastlane/Preview.html
+fastlane/screenshots

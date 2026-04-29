@@ -41,4 +41,12 @@ platform :ios do
       readonly: false
     )
   end
+
+  desc "Install existing signing certificates"
+  lane :dev_match do
+    match(
+      type: "development",
+      readonly: true
+    )
+  end
 end
