@@ -75,7 +75,12 @@ platform :ios do
 
         build_app(
             scheme: "SelfOSLab",
-            export_method: "app-store"
+            export_method: "app-store",
+            export_options: {
+                provisioningProfiles: {
+                    "com.nikitakrupiei.selfos" => "match AppStore com.nikitakrupiei.selfos"
+                }
+            }
         )
     end
     
