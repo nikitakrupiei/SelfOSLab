@@ -36,10 +36,8 @@ platform :ios do
   lane :ci_match do
     setup_api_key
 
-    match(
-      type: "development",
-      readonly: false
-    )
+    match(type: "development",readonly: false)
+    match(type: "appstore", readonly: false)
   end
 
   desc "Install existing signing certificates"
