@@ -53,7 +53,14 @@ let project = Project(
         base: [
             "DEVELOPMENT_TEAM": "493K3DK7Y5",
             "CODE_SIGN_STYLE": "Manual",
-            "CODE_SIGN_IDENTITY": "Apple Development"
+        ],
+        configurations: [
+            .debug(name: "Debug", settings: [
+                "CODE_SIGN_IDENTITY": "Apple Development"
+            ]),
+            .release(name: "Release", settings: [
+                "CODE_SIGN_IDENTITY": "Apple Distribution"
+            ])
         ]
     ),
     targets: [
