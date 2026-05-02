@@ -48,31 +48,16 @@ struct Targets {
 }
 
 struct SignSettings {
-    static let teamId = "493K3DK7Y5"
+    static let teamId = SettingValue(stringLiteral: "493K3DK7Y5")
+    
     struct ProvisioningProfiles {
-        static let debug = "match Development com.nikitakrupiei.selfos"
-        static let release = "match AppStore com.nikitakrupiei.selfos"
+        static let debug = SettingValue(stringLiteral: "match Development \(BundleIDs.App.main)")
+        static let release = SettingValue(stringLiteral: "match AppStore \(BundleIDs.App.main)")
     }
 }
 
 let project = Project(
     name: Targets.App.main,
-    settings: .settings(
-        base: [
-            "DEVELOPMENT_TEAM": SettingValue(stringLiteral: SignSettings.teamId),
-            "CODE_SIGN_STYLE": "Manual",
-        ],
-        configurations: [
-            .debug(name: "Debug", settings: [
-                "CODE_SIGN_IDENTITY": "Apple Development",
-                "PROVISIONING_PROFILE_SPECIFIER": SettingValue(stringLiteral: SignSettings.ProvisioningProfiles.debug)
-            ]),
-            .release(name: "Release", settings: [
-                "CODE_SIGN_IDENTITY": "Apple Distribution",
-                "PROVISIONING_PROFILE_SPECIFIER": SettingValue(stringLiteral: SignSettings.ProvisioningProfiles.release)
-            ])
-        ]
-    ),
     targets: [
         // App
         .target(
@@ -95,7 +80,23 @@ let project = Project(
             ],
             dependencies: [
                 .target(name: Targets.Platform.main)
-            ]
+            ],
+            settings: .settings(
+                base: [
+                    "DEVELOPMENT_TEAM": SignSettings.teamId,
+                    "CODE_SIGN_STYLE": "Manual",
+                ],
+                configurations: [
+                    .debug(name: "Debug", settings: [
+                        "CODE_SIGN_IDENTITY": "Apple Development",
+                        "PROVISIONING_PROFILE_SPECIFIER": SignSettings.ProvisioningProfiles.debug
+                    ]),
+                    .release(name: "Release", settings: [
+                        "CODE_SIGN_IDENTITY": "Apple Distribution",
+                        "PROVISIONING_PROFILE_SPECIFIER": SignSettings.ProvisioningProfiles.release
+                    ])
+                ]
+            )
         ),
         .target(
             name: Targets.App.unitTests,
