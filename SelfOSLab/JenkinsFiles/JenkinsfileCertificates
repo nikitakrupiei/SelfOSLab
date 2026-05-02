@@ -9,7 +9,7 @@ pipeline {
             }
         }
 
-	stage('Install dependencies') {
+        stage('Install dependencies') {
             steps {
                 dir('SelfOSLab') {
                     sh '''
@@ -35,7 +35,8 @@ pipeline {
                         string(credentialsId: 'match-password', variable: 'MATCH_PASSWORD'),
                         file(credentialsId: 'appstore-key', variable: 'APPSTORE_KEY_FILE'),
                         string(credentialsId: 'appstore-key-id', variable: 'APPSTORE_KEY_ID'),
-                        string(credentialsId: 'appstore-issuer-id', variable: 'APPSTORE_ISSUER_ID')
+                        string(credentialsId: 'appstore-issuer-id', variable: 'APPSTORE_ISSUER_ID'),
+                        string(credentialsId: 'keychain-password', variable: 'KEYCHAIN_PASSWORD')
                     ]) {
 
                         sh '''
@@ -50,6 +51,7 @@ pipeline {
                             export APPSTORE_KEY_FILE=$APPSTORE_KEY_FILE
                             export APPSTORE_KEY_ID=$APPSTORE_KEY_ID
                             export APPSTORE_ISSUER_ID=$APPSTORE_ISSUER_ID
+                            export KEYCHAIN_PASSWORD=$KEYCHAIN_PASSWORD
 
                             bundle install
                             bundle exec fastlane ios ci_match
