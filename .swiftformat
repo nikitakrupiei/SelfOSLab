@@ -3,3 +3,4 @@
 --stripunusedargs closure-only
 --disable trailingClosures
 --swiftversion 5.9
+--disable trailingCommas

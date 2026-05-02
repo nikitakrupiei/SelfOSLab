@@ -16,6 +16,9 @@ fi
 echo "👉 Files:"
 echo "$FILES"
 
+echo "🛠 Formatting..."
+swiftformat $FILES
+
 echo "🔍 Linting..."
 swiftlint lint --strict $FILES
 
