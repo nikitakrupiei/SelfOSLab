@@ -47,21 +47,29 @@ struct Targets {
     }
 }
 
+struct SignSettings {
+    static let teamId = "493K3DK7Y5"
+    struct ProvisioningProfiles {
+        static let debug = "match Development com.nikitakrupiei.selfos"
+        static let release = "match AppStore com.nikitakrupiei.selfos"
+    }
+}
+
 let project = Project(
     name: Targets.App.main,
     settings: .settings(
         base: [
-            "DEVELOPMENT_TEAM": "493K3DK7Y5",
+            "DEVELOPMENT_TEAM": SettingValue(stringLiteral: SignSettings.teamId),
             "CODE_SIGN_STYLE": "Manual",
         ],
         configurations: [
             .debug(name: "Debug", settings: [
                 "CODE_SIGN_IDENTITY": "Apple Development",
-                "PROVISIONING_PROFILE_SPECIFIER": "match Development com.nikitakrupiei.selfos"
+                "PROVISIONING_PROFILE_SPECIFIER": SettingValue(stringLiteral: SignSettings.ProvisioningProfiles.debug)
             ]),
             .release(name: "Release", settings: [
                 "CODE_SIGN_IDENTITY": "Apple Distribution",
-                "PROVISIONING_PROFILE_SPECIFIER": "match AppStore com.nikitakrupiei.selfos"
+                "PROVISIONING_PROFILE_SPECIFIER": SettingValue(stringLiteral: SignSettings.ProvisioningProfiles.release)
             ])
         ]
     ),
