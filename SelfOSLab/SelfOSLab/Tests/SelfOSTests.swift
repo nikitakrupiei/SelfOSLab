@@ -17,7 +17,9 @@ struct SelfOSTests {
     
     @Test func failExample() async throws {
         let result = 3 + 3
-                
+    
+        let ads: Int? = 6
+        let test = ads!
         #expect(result == 6)
     }
 }

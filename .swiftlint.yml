@@ -1,0 +1,37 @@
+disabled_rules:
+  - trailing_whitespace
+
+opt_in_rules:
+  - empty_count
+  - force_unwrapping
+  - implicit_return
+  - sorted_imports
+  - redundant_nil_coalescing
+
+included:
+  - SelfOSLab/SelfOSLab/SelfOSLab/Sources
+  - SelfOSLab/SelfOSLab/SelfOSLab/Tests
+  - Platform/Sources
+  - Platform/Tests
+
+excluded:
+  - Tuist
+  - **/.build
+  - **/Derived
+  - fastlane
+  - scripts
+
+line_length:
+  warning: 100
+  error: 120
+
+function_body_length:
+  warning: 50
+  error: 100
+
+type_body_length:
+  warning: 300
+  error: 500
+
+identifier_name:
+  min_length: 2

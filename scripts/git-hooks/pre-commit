@@ -1,0 +1,14 @@
+#!/bin/sh
+
+echo "🧹 Running SwiftLint pre-commit..."
+
+bash scripts/lint.sh
+
+RESULT=$?
+
+if [ $RESULT -ne 0 ]; then
+  echo "❌ Lint failed — commit blocked"
+  exit 1
+fi
+
+echo "✅ OK"
