@@ -70,13 +70,13 @@ let project = Project(
                 with: [
                     "UILaunchScreen": [
                         "UIColorName": "",
-                        "UIImageName": "",
-                    ],
+                        "UIImageName": ""
+                    ]
                 ]
             ),
             buildableFolders: [
                 .folder(Paths.App.sources),
-                .folder(Paths.App.resources),
+                .folder(Paths.App.resources)
             ],
             dependencies: [
                 .target(name: Targets.Platform.main),
@@ -89,12 +89,12 @@ let project = Project(
                 configurations: [
                     .debug(name: "Debug", settings: [
                         "CODE_SIGN_IDENTITY": "Apple Development",
-                        "PROVISIONING_PROFILE_SPECIFIER": SignSettings.ProvisioningProfiles.debug,
+                        "PROVISIONING_PROFILE_SPECIFIER": SignSettings.ProvisioningProfiles.debug
                     ]),
                     .release(name: "Release", settings: [
                         "CODE_SIGN_IDENTITY": "Apple Distribution",
-                        "PROVISIONING_PROFILE_SPECIFIER": SignSettings.ProvisioningProfiles.release,
-                    ]),
+                        "PROVISIONING_PROFILE_SPECIFIER": SignSettings.ProvisioningProfiles.release
+                    ])
                 ]
             )
         ),
@@ -106,7 +106,7 @@ let project = Project(
             deploymentTargets: .iOS(Deployment.iOS),
             infoPlist: .default,
             buildableFolders: [
-                .folder(Paths.App.tests),
+                .folder(Paths.App.tests)
             ],
             dependencies: [.target(name: Targets.App.main)]
         ),
@@ -117,7 +117,7 @@ let project = Project(
             bundleId: BundleIDs.App.uiTests,
             deploymentTargets: .iOS(Deployment.iOS),
             buildableFolders: [
-                .folder(Paths.App.uiTests),
+                .folder(Paths.App.uiTests)
             ],
             dependencies: [.target(name: Targets.App.main)]
         ),
@@ -130,7 +130,7 @@ let project = Project(
             bundleId: BundleIDs.Platform.main,
             deploymentTargets: .iOS(Deployment.iOS),
             buildableFolders: [
-                .folder(Paths.Platform.sources),
+                .folder(Paths.Platform.sources)
             ]
         ),
         .target(
@@ -140,11 +140,11 @@ let project = Project(
             bundleId: BundleIDs.Platform.unitTests,
             deploymentTargets: .iOS(Deployment.iOS),
             buildableFolders: [
-                .folder(Paths.Platform.tests),
+                .folder(Paths.Platform.tests)
             ],
             dependencies: [
-                .target(name: Targets.Platform.main),
+                .target(name: Targets.Platform.main)
             ]
-        ),
+        )
     ]
 )
