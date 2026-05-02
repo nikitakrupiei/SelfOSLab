@@ -1,4 +1,4 @@
-app_identifier("com.nikitakrupiei.selfos.dev") # The bundle identifier of your app
+app_identifier("com.nikitakrupiei.selfos") # The bundle identifier of your app
 apple_id("nikitakrupiei@gmail.com") # Your Apple Developer Portal username
 
 itc_team_id("119677464") # App Store Connect Team ID
