@@ -52,10 +52,21 @@ pipeline {
         stage('Upload to TestFlight') {
             steps {
                 dir('SelfOSLab') {
-                    sh '''
-                        export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/homebrew/bin:$PATH"
-                        bundle exec fastlane ios upload_testflight
-                    '''
+                    withCredentials([
+                        file(credentialsId: 'appstore-key', variable: 'APPSTORE_KEY_FILE'),
+                        string(credentialsId: 'appstore-key-id', variable: 'APPSTORE_KEY_ID'),
+                        string(credentialsId: 'appstore-issuer-id', variable: 'APPSTORE_ISSUER_ID')
+                    ]) {
+                        sh '''
+                            export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/homebrew/bin:$PATH"
+                            
+                            # Fastlane env
+                            export APPSTORE_KEY_FILE=$APPSTORE_KEY_FILE
+                            export APPSTORE_KEY_ID=$APPSTORE_KEY_ID
+                            export APPSTORE_ISSUER_ID=$APPSTORE_ISSUER_ID
+                            bundle exec fastlane ios upload_testflight
+                        '''
+                    }
                 }
             }
         }
