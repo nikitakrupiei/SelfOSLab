@@ -1,0 +1,6 @@
+--indent 4
+--maxwidth 100
+--stripunusedargs closure-only
+--disable trailingClosures
+--swiftversion 5.9
+--disable trailingCommas

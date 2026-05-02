@@ -16,10 +16,8 @@ fi
 echo "👉 Files:"
 echo "$FILES"
 
-echo "🛠 Auto-fixing..."
-swiftlint --fix $FILES || true
-
-git add $FILES
+echo "🛠 Formatting..."
+swiftformat $FILES
 
 echo "🔍 Linting..."
 swiftlint lint --strict $FILES
