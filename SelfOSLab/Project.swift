@@ -56,10 +56,12 @@ let project = Project(
         ],
         configurations: [
             .debug(name: "Debug", settings: [
-                "CODE_SIGN_IDENTITY": "Apple Development"
+                "CODE_SIGN_IDENTITY": "Apple Development",
+                "PROVISIONING_PROFILE_SPECIFIER": "match Development com.nikitakrupiei.selfos"
             ]),
             .release(name: "Release", settings: [
-                "CODE_SIGN_IDENTITY": "Apple Distribution"
+                "CODE_SIGN_IDENTITY": "Apple Distribution",
+                "PROVISIONING_PROFILE_SPECIFIER": "match AppStore com.nikitakrupiei.selfos"
             ])
         ]
     ),
