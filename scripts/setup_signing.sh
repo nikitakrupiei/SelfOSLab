@@ -16,5 +16,6 @@ bundle install
 echo "🔑 Syncing certificates with match..."
 
 bundle exec fastlane ios match_dev
+bundle exec fastlane ios match_appstore
 
 echo "✅ Signing setup completed successfully"
