@@ -70,13 +70,13 @@ let project = Project(
                 with: [
                     "UILaunchScreen": [
                         "UIColorName": "",
-                        "UIImageName": "",
-                    ],
+                        "UIImageName": ""
+                    ]
                 ]
             ),
             buildableFolders: [
                 .folder(Paths.App.sources),
-                .folder(Paths.App.resources),
+                .folder(Paths.App.resources)
             ],
             dependencies: [
                 .target(name: Targets.Platform.main)
@@ -84,7 +84,7 @@ let project = Project(
             settings: .settings(
                 base: [
                     "DEVELOPMENT_TEAM": SignSettings.teamId,
-                    "CODE_SIGN_STYLE": "Manual",
+                    "CODE_SIGN_STYLE": "Manual"
                 ],
                 configurations: [
                     .debug(name: "Debug", settings: [
@@ -145,6 +145,6 @@ let project = Project(
             dependencies: [
                 .target(name: Targets.Platform.main)
             ]
-        ),
+        )
     ]
 )

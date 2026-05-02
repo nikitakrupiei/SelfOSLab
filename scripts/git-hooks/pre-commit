@@ -1,14 +1,27 @@
-#!/bin/sh
+#!/bin/bash
+set -e
 
-echo "🧹 Running SwiftLint pre-commit..."
+echo "🧹 Running SwiftLint on staged files..."
 
-bash scripts/lint.sh
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
 
-RESULT=$?
+FILES=$(git diff --cached --name-only --diff-filter=ACM | grep "\.swift$" || true)
 
-if [ $RESULT -ne 0 ]; then
-  echo "❌ Lint failed — commit blocked"
-  exit 1
+if [ -z "$FILES" ]; then
+  echo "ℹ️ No Swift files staged"
+  exit 0
 fi
 
-echo "✅ OK"
+echo "👉 Files:"
+echo "$FILES"
+
+echo "🛠 Auto-fixing..."
+swiftlint --fix $FILES || true
+
+git add $FILES
+
+echo "🔍 Linting..."
+swiftlint lint --strict $FILES
+
+echo "✅ SwiftLint passed"
