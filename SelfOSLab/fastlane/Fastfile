@@ -40,8 +40,21 @@ platform :ios do
     lane :ci_match do
         setup_api_key
 
-        match(type: "development",readonly: false)
-        match(type: "appstore", readonly: false)
+        match(
+            type: "development",
+            readonly: false,
+            keychain_name: "login.keychain",
+            keychain_password: ENV["KEYCHAIN_PASSWORD"],
+            skip_set_partition_list: false
+        )
+        
+        match(
+            type: "appstore",
+            readonly: false,
+            keychain_name: "login.keychain",
+            keychain_password: ENV["KEYCHAIN_PASSWORD"],
+            skip_set_partition_list: false
+        )
     end
 
     desc "Install existing signing certificates for development"
@@ -77,6 +90,7 @@ platform :ios do
             scheme: "SelfOSLab",
             export_method: "app-store",
             export_options: {
+                "signingStyle" => "manual",
                 provisioningProfiles: {
                     "com.nikitakrupiei.selfos" => "match AppStore com.nikitakrupiei.selfos"
                 }
