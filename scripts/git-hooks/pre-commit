@@ -1,0 +1,27 @@
+#!/bin/bash
+set -e
+
+echo "🧹 Running SwiftLint on staged files..."
+
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+
+FILES=$(git diff --cached --name-only --diff-filter=ACM | grep "\.swift$" || true)
+
+if [ -z "$FILES" ]; then
+  echo "ℹ️ No Swift files staged"
+  exit 0
+fi
+
+echo "👉 Files:"
+echo "$FILES"
+
+echo "🛠 Auto-fixing..."
+swiftlint --fix $FILES || true
+
+git add $FILES
+
+echo "🔍 Linting..."
+swiftlint lint --strict $FILES
+
+echo "✅ SwiftLint passed"

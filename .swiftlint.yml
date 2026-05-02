@@ -1,0 +1,63 @@
+disabled_rules:
+  - trailing_whitespace
+
+opt_in_rules:
+  # 🟡 style / readability
+  - empty_count
+  - implicit_return
+  - sorted_imports
+  - redundant_nil_coalescing
+  - vertical_whitespace_closing_braces
+  - vertical_whitespace_opening_braces
+  - redundant_discardable_let
+  - trailing_comma
+  - closure_spacing
+
+  # 🔴 safety
+  - force_unwrapping
+  - implicitly_unwrapped_optional
+  - force_cast
+  - force_try
+
+excluded:
+  - ${PWD}/Platform/Derived
+  - ${PWD}/Platform/Tests
+  - ${PWD}/SelfOSLab/SelfOSLab/Tests
+  - ${PWD}/SelfOSLab/SelfOSLab/UITests
+  - ${PWD}/SelfOSLab/SelfOSLab/Resources
+  - ${PWD}/SelfOSLab/fastlane
+  - ${PWD}/SelfOSLab/Derived
+  - ${PWD}/SelfOSLab/JenkinsFiles
+  - ${PWD}/SelfOSLab/Tuist
+  
+line_length:
+  warning: 100
+  error: 120
+
+function_body_length:
+  warning: 50
+  error: 100
+
+type_body_length:
+  warning: 300
+  error: 500
+
+identifier_name:
+  min_length: 3
+  max_length: 40
+
+cyclomatic_complexity:
+  warning: 10
+  error: 15
+
+function_parameter_count:
+  warning: 5
+  error: 8
+
+file_length:
+  warning: 400
+  error: 600
+
+type_name:
+  min_length: 3
+  max_length: 50
