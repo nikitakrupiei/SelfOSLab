@@ -12,14 +12,31 @@ if [ -z "$FILES" ]; then
   echo "ℹ️ No Swift files staged"
   exit 0
 fi
-
+echo ""
+echo "--------------------------------------"
 echo "👉 Files:"
 echo "$FILES"
+echo "--------------------------------------"
 
+echo ""
+echo "--------------------------------------"
 echo "🛠 Formatting..."
 swiftformat $FILES
+echo "--------------------------------------"
 
+echo ""
+echo "--------------------------------------"
+echo "📌 Re-staging formatted files..."
+git add $FILES
+echo "--------------------------------------"
+
+echo ""
+echo "--------------------------------------"
 echo "🔍 Linting..."
 swiftlint lint --strict $FILES
+echo "--------------------------------------"
 
+echo ""
+echo "--------------------------------------"
 echo "✅ SwiftLint passed"
+echo "--------------------------------------"
