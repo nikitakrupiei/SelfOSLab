@@ -79,12 +79,12 @@ let project = Project(
                 .folder(Paths.App.resources)
             ],
             dependencies: [
-                .target(name: Targets.Platform.main),
+                .target(name: Targets.Platform.main)
             ],
             settings: .settings(
                 base: [
                     "DEVELOPMENT_TEAM": SignSettings.teamId,
-                    "CODE_SIGN_STYLE": "Manual",
+                    "CODE_SIGN_STYLE": "Manual"
                 ],
                 configurations: [
                     .debug(name: "Debug", settings: [

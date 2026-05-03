@@ -19,6 +19,9 @@ echo "$FILES"
 echo "🛠 Formatting..."
 swiftformat $FILES
 
+echo "📌 Re-staging formatted files..."
+git add $FILES
+
 echo "🔍 Linting..."
 swiftlint lint --strict $FILES
 
